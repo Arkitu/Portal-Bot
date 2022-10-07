@@ -1,0 +1,9 @@
+{
+    "token": "REPLACE_WITH_BOT_TOKEN",
+    "app_id": "REPLACE_WITH_APP_ID",
+    "creator_id": "REPLACE_WITH_AUTHOR_ID",
+    "admin_server_id": "REPLACE_WITH_ADMIN_SERVER_ID",
+    "main_color": "REPLACE_WITH_HEX_COLOR",
+    "secondary_color": "REPLACE_WITH_HEX_COLOR",
+    "help_link": "REPLACE_WITH_HELP_LINK(here's your rickroll !)"
+}
