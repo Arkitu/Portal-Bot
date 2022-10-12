@@ -49,8 +49,9 @@ export class LogUtils {
 }
 
 export function toWindowsPath(path: string) {
+	let newPath = path;
     if (!path.startsWith("file")) {
-        path = `file://${path}`;
+        newPath = `file://${path}`;
     }
-    return path;
+    return newPath;
 }
