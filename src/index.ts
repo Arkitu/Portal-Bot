@@ -6,7 +6,7 @@ import * as path from 'path';
 import { dirname } from 'dirname-filename-esm';
 import './sequelize/models/index.js';
 import { OtherListeners } from './listeners/OtherListeners.js';
-import { TimeStringUtils, LogUtils } from './Utils.js';
+import { toWindowsPath, LogUtils } from './Utils.js';
 
 const __dirname = dirname(import.meta);
 
@@ -50,13 +50,13 @@ const commandFiles = {
 };
 
 for (const file of commandFiles.admin) {
-	import(path.join(admin_path, file))
+	import(toWindowsPath(path.join(admin_path, file)))
   		.then((command) => {
     		client.commands.set(command.data.name, command);
   		});
 }
 for (const file of commandFiles.everyone) {
-	import(path.join(everyone_path, file))
+	import(toWindowsPath(path.join(everyone_path, file)))
   		.then((command) => {
     		client.commands.set(command.data.name, command);
   		});

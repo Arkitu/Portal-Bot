@@ -47,3 +47,10 @@ export class LogUtils {
 		console.log(`[${datetime}] ${msg}`);
 	}
 }
+
+export function toWindowsPath(path: string) {
+    if (!path.startsWith("file")) {
+        path = `file://${path}`;
+    }
+    return path;
+}

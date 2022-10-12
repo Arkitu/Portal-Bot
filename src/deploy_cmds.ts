@@ -6,16 +6,10 @@ import { Config } from 'node-json-db/dist/lib/JsonDBConfig.js';
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { join } from "path";
 import { dirname } from "dirname-filename-esm";
+import { toWindowsPath } from "./Utils.js";
 
 class SlashCommandBuilderWithPerms extends SlashCommandBuilder {
     perms: "admin" | "everyone";
-}
-
-function toWindowsPath(path: string) {
-    if (!path.startsWith("file")) {
-        path = `file://${path}`;
-    }
-    return path;
 }
 
 const __dirname = dirname(import.meta);
