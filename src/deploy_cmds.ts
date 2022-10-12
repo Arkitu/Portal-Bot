@@ -11,7 +11,13 @@ class SlashCommandBuilderWithPerms extends SlashCommandBuilder {
     perms: "admin" | "everyone";
 }
 
-const __dirname = dirname(import.meta);
+let __dirname = dirname(import.meta);
+
+if (!__dirname.startsWith("file:")) {
+    let dirnameArr = __dirname.split(":");
+    dirnameArr[0] = "file";
+    __dirname = dirnameArr.join(":");
+}
 
 global.config = new JsonDB(new Config("./config", true, true, '/'));
 global.constants = new JsonDB(new Config("./constants", true, true, '/'));
