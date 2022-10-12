@@ -18,6 +18,8 @@ if (!__dirname.startsWith("file")) {
     __dirname = `file://${__dirname}`;
 }
 
+console.debug(__dirname);
+
 global.config = new JsonDB(new Config("./config", true, true, '/'));
 global.constants = new JsonDB(new Config("./constants", true, true, '/'));
 
