@@ -6,13 +6,12 @@ import { Config } from 'node-json-db/dist/lib/JsonDBConfig.js';
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { join } from "path";
 import { dirname } from "dirname-filename-esm";
-import * as upath from 'upath';
 
 class SlashCommandBuilderWithPerms extends SlashCommandBuilder {
     perms: "admin" | "everyone";
 }
 
-let __dirname = upath.normalize(dirname(import.meta));
+let __dirname = dirname(import.meta);
 
 if (!__dirname.startsWith("file")) {
     __dirname = `file://${__dirname}`;
