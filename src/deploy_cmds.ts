@@ -11,11 +11,14 @@ class SlashCommandBuilderWithPerms extends SlashCommandBuilder {
     perms: "admin" | "everyone";
 }
 
-let __dirname = dirname(import.meta);
-
-if (!__dirname.startsWith("file")) {
-    __dirname = `file://${__dirname}`;
+function toWindowsPath(path: string) {
+    if (!path.startsWith("file")) {
+        path = `file://${path}`;
+    }
+    return path;
 }
+
+const __dirname = dirname(import.meta);
 
 console.debug(__dirname);
 
@@ -48,10 +51,10 @@ const commandFiles = {
         everyone: []
     };
     for (let file of commandFiles.admin) {
-        cmds.admin.push(await (await import(join(path.admin, file))).data.toJSON() as SlashCommandBuilderWithPerms);
+        cmds.admin.push(await (await import(toWindowsPath(join(path.admin, file)))).data.toJSON() as SlashCommandBuilderWithPerms);
     }
     for (let file of commandFiles.everyone) {
-        cmds.everyone.push(await (await import(join(path.everyone, file))).data.toJSON() as SlashCommandBuilderWithPerms);
+        cmds.everyone.push(await (await import(toWindowsPath(join(path.everyone, file)))).data.toJSON() as SlashCommandBuilderWithPerms);
     }
 
     console.log(cmds);
