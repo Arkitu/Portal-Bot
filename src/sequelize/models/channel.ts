@@ -11,19 +11,13 @@ import {
 
 export const initArgs = {
     id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
-    example_attribute: {
         type: DataTypes.STRING,
-        allowNull: false
+        primaryKey: true
     }
 };
 
-export class ModelName extends Model<InferAttributes<ModelName>, InferCreationAttributes<ModelName>> {
-    declare id: CreationOptional<number>;
-    declare example_attribute: string;
+export class Channel extends Model<InferAttributes<Channel>, InferCreationAttributes<Channel>> {
+    declare id: CreationOptional<string>;
 
     /**
      * Helper method for defining associations.
@@ -31,14 +25,14 @@ export class ModelName extends Model<InferAttributes<ModelName>, InferCreationAt
      * The `models/index` file will call this method automatically.
      */
     static associate() {
-        // define association here
+        db.models.Channel.belongsToMany(db.models.User, { through: "PortalChannels" });
     }
 }
 
 export function initModel() {
-    ModelName.init(initArgs, {
+    Channel.init(initArgs, {
         sequelize: db,
-        modelName: 'ModelName'
+        modelName: 'Channel'
     });
-    console.log(`Initialized model ${ModelName.name}`);
+    console.log(`Initialized model ${Channel.name}`);
 }

@@ -1,7 +1,8 @@
 import * as path from 'path';
 import { Sequelize, Model, ModelValidateOptions, ModelStatic } from 'sequelize';
 import { dirname, filename } from 'dirname-filename-esm';
-import { ModelName, initModel as initModelName } from './modelname.js';
+import { Portal, initModel as initPortal } from './portal.js';
+import { Channel, initModel as initChannel } from './channel.js';
 
 const __dirname = dirname(import.meta);
 const __filename = filename(import.meta);
@@ -16,7 +17,8 @@ export interface ModelWithAssociate<M extends Model<any, any> = Model<any, any>>
 }
 
 export interface Models {
-    ModelName?: ModelStatic<ModelName>,
+    Portal?: ModelStatic<Portal>,
+    Channel?: ModelStatic<Channel>,
     [key: string]: ModelStatic<Model<any, any>>
 }
 
@@ -32,7 +34,8 @@ global.db = new Sequelize({
     logging: false
 });
 
-initModelName();
+initPortal();
+initChannel();
 
 for (let model of Object.values(db.models)) {
     if ("associate" in model) {
