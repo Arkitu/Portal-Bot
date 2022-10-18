@@ -1,11 +1,12 @@
 import * as path from 'path';
 import { Sequelize, Model, ModelValidateOptions, ModelStatic } from 'sequelize';
-import { dirname, filename } from 'dirname-filename-esm';
+import { dirname } from 'dirname-filename-esm';
 import { Portal, initModel as initPortal } from './portal.js';
 import { Channel, initModel as initChannel } from './channel.js';
+import { Message, initModel as initMessage } from './message.js';
+import { DiscordMessage, initModel as initDiscordMessage } from './discordmessage.js';
 
 const __dirname = dirname(import.meta);
-const __filename = filename(import.meta);
 
 export const snowflakeValidate: ModelValidateOptions = {
     len: [18, 18],
@@ -19,14 +20,14 @@ export interface ModelWithAssociate<M extends Model<any, any> = Model<any, any>>
 export interface Models {
     Portal?: ModelStatic<Portal>,
     Channel?: ModelStatic<Channel>,
+    Message?: ModelStatic<Message>,
+    DiscordMessage?: ModelStatic<DiscordMessage>,
     [key: string]: ModelStatic<Model<any, any>>
 }
 
 export interface SequelizeWithModels extends Sequelize {
     readonly models: Models;
 }
-
-const basename = path.basename(__filename);
 
 global.db = new Sequelize({
     dialect: 'sqlite',
@@ -36,6 +37,8 @@ global.db = new Sequelize({
 
 initPortal();
 initChannel();
+initMessage();
+initDiscordMessage();
 
 for (let model of Object.values(db.models)) {
     if ("associate" in model) {

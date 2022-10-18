@@ -5,9 +5,16 @@ import {
     Model,
     InferAttributes,
     InferCreationAttributes,
-    CreationOptional
+    CreationOptional,
+    ModelAttributes,
+    Optional,
+    BelongsToMany,
+    HasMany
 } from "sequelize";
 import pkg from "dottie";
+import { Channel } from "./channel.js";
+import { NullishPropertiesOf } from "sequelize/types/utils.js";
+import { Message } from "./message.js";
 
 interface Dottie {
     transform: (obj: any)=>any,
@@ -15,6 +22,8 @@ interface Dottie {
 }
 
 const dottie = pkg as unknown as Dottie;
+
+export type PortalType = "basic";
 
 export const initArgs = {
     id: {
@@ -43,9 +52,28 @@ export const initArgs = {
 
 export class Portal extends Model<InferAttributes<Portal>, InferCreationAttributes<Portal>> {
     declare id: CreationOptional<number>;
-    declare type: CreationOptional<string>;
+    declare type: CreationOptional<PortalType>;
     declare stringifiedData: CreationOptional<string>;
     declare data: CreationOptional<object>;
+    declare Channels: CreationOptional<
+        Channel[] | 
+        Optional<
+            InferCreationAttributes<
+                Channel,
+                {omit: never}
+            >,
+            NullishPropertiesOf<
+                InferCreationAttributes<
+                    Channel,
+                    {omit: never}
+                >
+            >
+        >
+    >;
+    declare Messages: CreationOptional<Message[]>;
+    static Channel: BelongsToMany<Portal, Channel>;
+    static Message: HasMany<Portal, Message>;
+
 
     /**
      * Use this method to set config. If you use config directly, it won't be saved.
@@ -63,14 +91,18 @@ export class Portal extends Model<InferAttributes<Portal>, InferCreationAttribut
      * The `models/index` file will call this method automatically.
      */
     static associate() {
-        db.models.Portal.belongsToMany(db.models.Channel, { through: "PortalChannels" });
+        Portal.Channel = db.models.Portal.belongsToMany(db.models.Channel, { through: "PortalChannels" });
+        Portal.Message = db.models.Portal.hasMany(db.models.Message);
     }
 }
 
 export function initModel() {
-    Portal.init(initArgs, {
-        sequelize: db,
-        modelName: 'Portal'
-    });
+    Portal.init(
+        initArgs as unknown as ModelAttributes<Portal, Optional<InferAttributes<Portal, {omit: never;}>, never>>,
+        {
+            sequelize: db,
+            modelName: 'Portal'
+        }
+    );
     console.log(`Initialized model ${Portal.name}`);
 }

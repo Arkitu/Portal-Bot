@@ -17,7 +17,7 @@ export class OtherListeners {
 	
 	static async help(msg: Message) {
 		if (["help", "$help", "!help", "?help", `<@${client.user.id}>`, `<@${client.user.id}> help`].includes(msg.content.toLowerCase())) {
-			await msg.channel.send("Si vous voulez la liste des commandes, utilisez la commande `/help`");
+			await msg.channel.send(`Si vous voulez la liste des commandes, utilisez la commande </help:0>`);
 		}
 	}
 }

@@ -4,7 +4,7 @@ import { join } from 'path';
 
 const __dirname = dirname(import.meta);
 
-let monitor: Monitor = new Monitor(join(__dirname, "index.js"), {
+let monitor: Monitor = new Monitor(join(__dirname, "start.js"), {
     max: Infinity,
     silent: false
 });

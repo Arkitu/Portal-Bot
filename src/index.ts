@@ -1,11 +1,10 @@
-import { Collection, Intents, Interaction, Message, MessageActionRow, MessageButton, Client as DiscordClient } from 'discord.js';
+import { Collection, Intents, Client as DiscordClient } from 'discord.js';
 import { readdirSync } from 'fs';
 import { JsonDB } from 'node-json-db';
 import { Config } from 'node-json-db/dist/lib/JsonDBConfig.js';
 import * as path from 'path';
 import { dirname } from 'dirname-filename-esm';
 import './sequelize/models/index.js';
-import { OtherListeners } from './listeners/OtherListeners.js';
 import { toWindowsPath, LogUtils } from './Utils.js';
 
 const __dirname = dirname(import.meta);
@@ -30,14 +29,6 @@ client.once('ready', async () => {
 	LogUtils.log('Bot logged !');
 	client.users.fetch(config.getData("/creator_id")).then(u => u.send("🔄 Le bot a redemarré !"));
 	await db.authenticate();
-});
-
-// Set up listeners
-client.setMaxListeners(0);
-client.on('interactionCreate', OtherListeners.command);
-client.on('messageCreate', (message) => {
-    if (!message.content) return;
-    OtherListeners.help(message);
 });
 
 // Import all the commands from the commands files

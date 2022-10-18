@@ -22,7 +22,7 @@
   "scripts": {
     "postinstall": "./init.sh",
     "start": "node ./dist/start_bot_forever.js",
-    "start_once": "node ./dist/index.js",
+    "start_once": "node ./dist/start.js",
     "deploy_cmds": "node ./dist/deploy_cmds.js",
     "migrate": "node ./dist/sequelize/migrations/migrate.js",
     "create_tables": "node ./dist/sequelize/models/index.js"
